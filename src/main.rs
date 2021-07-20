@@ -4,6 +4,10 @@ static COLOR_P1: u8 = 196; //red
 static COLOR_P2: u8 = 27; //blue
 static COLOR_SEL: u8 = 180; //selected colour
 
+//set all of the dimensions of the board
+static BOARD_WIDTH: u8 = 7;
+static BOARD_HEIGHT: u8 = 6;
+
 fn clear_screen() {
     print!("\x1b[2J");   
 }
@@ -28,26 +32,23 @@ fn color_reset() {
     print!("\x1b[0m");
 }
 
+fn draw_board() {
+    cursor_home();
+    
+    for y in 1..BOARD_HEIGHT {
+        for x in 1..BOARD_WIDTH {
+            print!("O");
+        }
+        print!("\n");
+    }
+
+    cursor_home();
+}
+
 fn main() {
     clear_screen();
-    println!("Hello, world!");
-    
-    cursor_goto(11,10);
-    print!("Hello i am here now");
-    
-    cursor_home();
-    color_set_foreground(COLOR_P1);
-    print!("I am some red text");
 
-    cursor_goto(20, 11);
-    color_set_foreground(COLOR_P2);
-    print!("I am some blue text :)");
+    draw_board();
 
-    cursor_goto(3,14);
-    color_set_background(COLOR_SEL);
-    print!("I am some selected text :P");
-
-    cursor_goto(2,18);
-    color_reset();
-    print!("I have been stripped of formatting :(");
+    cursor_goto(0,20);
 }
