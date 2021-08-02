@@ -27,22 +27,51 @@ fn color_reset() {
     print!("\x1b[0m");
 }
 
+#[derive(Copy, Clone)]
+enum Cell {
+    Unset,
+    P1,
+    P2,
+}
+
 fn main() {
 
     // SETUP
     clear_screen();
     cursor_home();
 
-    print!("The game is now starting");
+    println!("The game is now setting up");
+    const width: usize = 7;
+    const height: usize = 6;
+    let mut board = [[Cell::Unset; width]; height];
 
-    // DRAW
+    println!("The game is now starting");
+
+    loop {
+        // DRAW
+   
+        for y in 0..width {
+            for x in 0..height {
+
+                match &board[x][y] {
+                    Cell::Unset => {color_reset();},
+                    Cell::P1 => {color_set_foreground(COLOR_P1);},
+                    Cell::P2 => {color_set_foreground(COLOR_P2);},
+                }
+
+                print!("O");
+            }
+            print!("\n")
+        }
+
+        // INPUT
+
+        // CHECK
     
-    // INPUT
-
-    // CHECK
+        break;
+    }
 
     // EXIT
     print!("\n");
-    print!("The game is now over");
-    print!("\n\n");
+    println!("The game is now over");
 }
