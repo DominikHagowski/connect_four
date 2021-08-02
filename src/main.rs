@@ -66,22 +66,26 @@ fn main() {
             println!("numbers above the WIDTH will be wrapped around");
 
             let mut input = String::new();
+            let input_cell: usize;
+            loop {
+                if io::stdin().read_line(&mut input).is_err() {
+                    continue
+                }
 
-            io::stdin()
-                .read_line(&mut input)
-                .expect("Failed to read input.");
+                let input = &input[..1];
 
-            let inputtest = &input[..1];
-
-            let input_num: u8 = ((inputtest.parse::<u8>().unwrap())) - 1;
-
-            print!("{}", input_num);
+                if let Ok(data) = input.parse::<usize>() {
+                    input_cell = data - 1;
+                    break;
+                }
+            }
+            print!("{}", input_cell);
 
             let mut board_min = HEIGHT;
 
             loop {
 
-                if Cell::Unset == board[input_num as usize][board_min] {
+                if Cell::Unset == board[input_cell][board_min] {
                     break;
                 }
 
@@ -92,9 +96,9 @@ fn main() {
             }
 
             if current_player == 0{
-                board[input_num as usize][board_min] = Cell::P2;
+                board[input_cell][board_min] = Cell::P2;
             } else {
-                board[input_num as usize][board_min] = Cell::P1;
+                board[input_cell][board_min] = Cell::P1;
             }
 
             break;
