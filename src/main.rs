@@ -37,8 +37,7 @@ fn main() {
         // Print the numbers above the board
         // for easier user input
         let numbers = "1234567890";
-        print!("{}", &numbers[..(WIDTH - 1)]);
-        println!();
+        print!("{}\n\n", &numbers[..(WIDTH - 1)]);
 
         for y in 0..WIDTH {
             for x in 0..HEIGHT {
@@ -62,8 +61,8 @@ fn main() {
         loop {
             let current_player = turn % 2;
 
-            println!("Player {}, input x coord,", current_player + 1);
-            println!("numbers above the WIDTH will be wrapped around");
+            println!("Player {}, input x coord", current_player + 1);
+            println!("Numbers above the WIDTH will be wrapped around");
 
             let mut input = String::new();
             let input_cell: usize;
