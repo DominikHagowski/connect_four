@@ -15,7 +15,6 @@ enum Cell {
 }
 
 fn main() {
-
     // SETUP
     Console::clear();
     Cursor::go_home();
@@ -52,12 +51,12 @@ fn main() {
 
                 print!("O");
             }
-            print!("\n")
+            println!()
         }
         
         Console::reset_color();
 
-        print!("\n");
+        println!();
 
         // INPUT
         loop {
