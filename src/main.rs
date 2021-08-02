@@ -28,7 +28,7 @@ fn color_reset() {
     print!("\x1b[0m");
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq)]
 enum Cell {
     Unset,
     P1,
@@ -75,39 +75,92 @@ fn main() {
             }
             print!("\n")
         }
+        
+        color_reset();
 
         print!("\n");
 
         // INPUT
+        loop {
+            let current_player = turn % 2;
 
-        let current_player = turn % 2;
+            println!("Player {}, input x coord, \nnumbers above the width will be wrapped around", current_player + 1);
 
-        println!("Player {}, input x coord between 1 - 9", current_player + 1);
+            let mut input = String::new();
 
-        let mut input = String::new();
+            io::stdin()
+                .read_line(&mut input)
+                .expect("Failed to read input.");
 
-        io::stdin()
-            .read_line(&mut input)
-            .expect("Failed to read input.");
+            let inputtest = &input[..1];
 
-        let inputtest = &input[..1];
+            let input_num: u8 = ((inputtest.parse::<u8>().unwrap())) - 1;
 
-        let input_num: u8 = (inputtest.parse::<u8>().unwrap()) - 1;
+            print!("{}", input_num);
 
-        print!("{}", input_num);
+            let mut board_min = height;
 
-        if (current_player == 0){
-            board[input_num as usize][4] = Cell::P2;
-        } else {
-            board[input_num as usize][4] = Cell::P1;
+            loop {
+
+                if(Cell::Unset == board[input_num as usize][board_min]){
+                    break;
+                }
+
+                if (board_min == 0) {
+                    break;
+                }
+                board_min = board_min - 1;
+            }
+
+            if (current_player == 0){
+                board[input_num as usize][board_min] = Cell::P2;
+            } else {
+                board[input_num as usize][board_min] = Cell::P1;
+            }
+
+            break;
         }
-        
 
         turn = (turn + 1) % 255;
 
         // CHECK
-    
-        //break;
+
+        let mut Winner = Cell::Unset;
+
+        Winner = Cell::Unset;
+
+        for y in 0..(height - 1) {
+            for x in 0..(width - 1) {
+                let current_player = &board[x][y];
+
+                if (&Cell::Unset == current_player) {
+                    continue;
+                }
+
+                if (x + 3 < width && 
+                    &board[x + 1][y] == current_player &&
+                    &board[x + 2][y] == current_player &&
+                    &board[x + 3][y] == current_player) {
+                    Winner = Cell::P1;
+                }
+
+                if (y + 3 < height && 
+                    &board[x][y + 1] == current_player &&
+                    &board[x][y + 2] == current_player &&
+                    &board[x][y + 3] == current_player) {
+                    Winner = Cell::P2;
+                }
+            }
+        }
+
+        match Winner {
+            Cell::Unset => {continue;},
+            Cell::P1 => {println!("\nWinner: player 1"); break;},
+            Cell::P2 => {println!("\nWinner: player 2"); break;},
+        }
+
+        break;
+
     }
 
     // EXIT
