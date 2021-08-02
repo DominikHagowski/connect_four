@@ -134,9 +134,11 @@ fn main() {
 
         match Winner {
             Cell::Unset => {continue;},
-            Cell::P1 => {println!("\nWinner: player 1"); break;},
-            Cell::P2 => {println!("\nWinner: player 2"); break;},
+            Cell::P1 => {println!("\nWinner: player 1")},
+            Cell::P2 => {println!("\nWinner: player 2")},
         }
+
+        break;
     }
 
     // EXIT
