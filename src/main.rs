@@ -1,32 +1,11 @@
+mod console;
+
 use std::io;
+use console::{Console, Cursor};
 
 //set all of the colours used by the program
 const COLOR_P1: u8 = 196; //red
 const COLOR_P2: u8 = 27; //blue
-
-fn clear_screen() {
-    print!("\x1b[2J");   
-}
-
-fn cursor_goto(x: u8, y: u8) {
-    print!("\x1b[{};{}H", y, x);
-}
-
-fn cursor_home() {
-    print!("\x1b[H");
-}
-
-fn color_set_foreground(id: u8) {
-    print!("\x1b[38;5;{}m", id);
-}
-
-fn color_set_background(id: u8) {
-    print!("\x1b[48;5;{}m", id);
-}
-
-fn color_reset() {
-    print!("\x1b[0m");
-}
 
 #[derive(Copy, Clone, PartialEq)]
 enum Cell {
@@ -38,8 +17,8 @@ enum Cell {
 fn main() {
 
     // SETUP
-    clear_screen();
-    cursor_home();
+    Console::clear();
+    Cursor::go_home();
 
     println!("The game is now setting up");
     
@@ -53,8 +32,8 @@ fn main() {
 
     loop {
         // DRAW
-        clear_screen();
-        cursor_goto(0, 1);
+        Console::clear();
+        Cursor::go_to(0, 1);
 
         // Print the numbers above the board
         // for easier user input
@@ -66,9 +45,9 @@ fn main() {
             for x in 0..HEIGHT {
 
                 match &board[x][y] {
-                    Cell::Unset => {color_reset();},
-                    Cell::P1 => {color_set_foreground(COLOR_P1);},
-                    Cell::P2 => {color_set_foreground(COLOR_P2);},
+                    Cell::Unset => {Console::reset_color();},
+                    Cell::P1 => {Console::set_fg_color(COLOR_P1);},
+                    Cell::P2 => {Console::set_fg_color(COLOR_P2);},
                 }
 
                 print!("O");
@@ -76,7 +55,7 @@ fn main() {
             print!("\n")
         }
         
-        color_reset();
+        Console::reset_color();
 
         print!("\n");
 
