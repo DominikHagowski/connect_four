@@ -7,6 +7,7 @@ use console::{Console, Cursor};
 const COLOR_P1: u8 = 196; //red
 const COLOR_P2: u8 = 27; //blue
 
+//the dimensions of the board
 const WIDTH: usize = 7;
 const HEIGHT: usize = 6;
 
@@ -18,6 +19,7 @@ enum Cell {
 }
 
 fn main() {
+
     // SETUP
     Console::clear();
     Cursor::go_home();
@@ -32,7 +34,7 @@ fn main() {
 
     loop {
         // DRAW
-        Console::clear();
+        //Console::clear();
         Cursor::go_to(0, 1);
 
         // Print the numbers above the board
@@ -110,30 +112,31 @@ fn main() {
 
         let mut winner = Cell::Unset;
 
-        for y in 0..(HEIGHT - 1) {
-            for x in 0..(WIDTH - 1) {
-                let current_player = &board[x][y];
+        let mut counter_p1 = 0;
+        let mut counter_p2 = 0;
 
-                if &Cell::Unset == current_player {
-                    continue;
+        // Vertical checking
+        for x in 0..(WIDTH - 1) {
+            for y in 0..(HEIGHT + 1) {
+                let current_cell = &board[x][y];
+
+                match *current_cell {
+                    Cell::Unset => {continue;},
+                    Cell::P1 => {counter_p1 += 1; counter_p2 = 0;},
+                    Cell::P2 => {counter_p2 += 1; counter_p1 = 0;},
                 }
 
-                if x + 3 < WIDTH && 
-                    &board[x + 1][y] == current_player &&
-                    &board[x + 2][y] == current_player &&
-                    &board[x + 3][y] == current_player {
-                    winner = *current_player;
+                if (counter_p1 == 4) {
+                    winner = Cell::P1;
                 }
-
-                if y + 3 < HEIGHT && 
-                    &board[x][y + 1] == current_player &&
-                    &board[x][y + 2] == current_player &&
-                    &board[x][y + 3] == current_player {
-                    winner = *current_player;
+                if (counter_p2 == 4) {
+                    winner = Cell::P2;
                 }
             }
+            counter_p1 = 0;
+            counter_p2 = 0;
         }
-
+        
         match winner {
             Cell::Unset => {continue;},
             Cell::P1 => {println!("\nWinner: player 2")},
