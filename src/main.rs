@@ -126,13 +126,36 @@ fn main() {
                     Cell::P2 => {counter_p2 += 1; counter_p1 = 0;},
                 }
 
-                if (counter_p1 == 4) {
+                if counter_p1 == 4 {
                     winner = Cell::P1;
                 }
-                if (counter_p2 == 4) {
+                if counter_p2 == 4 {
                     winner = Cell::P2;
                 }
             }
+
+            counter_p1 = 0;
+            counter_p2 = 0;
+        }
+
+        // Horizontal checking
+        for y in 0..(HEIGHT + 1) {
+            for x in 0..(WIDTH - 1) {
+                let current_cell = &board[x][y];
+
+                match *current_cell {
+                    Cell::Unset => {continue;},
+                    Cell::P1 => {counter_p1 += 1; counter_p2 = 0;},
+                    Cell::P2 => {counter_p2 += 1; counter_p1 = 0;},}
+                }
+
+                if counter_p1 == 4 {
+                    winner = Cell::P1;
+                }
+                if counter_p2 == 4 {
+                    winner = Cell::P2;
+                }
+
             counter_p1 = 0;
             counter_p2 = 0;
         }
