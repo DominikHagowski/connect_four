@@ -7,6 +7,9 @@ use console::{Console, Cursor};
 const COLOR_P1: u8 = 196; //red
 const COLOR_P2: u8 = 27; //blue
 
+const WIDTH: usize = 7;
+const HEIGHT: usize = 6;
+
 #[derive(Copy, Clone, PartialEq)]
 enum Cell {
     Unset,
@@ -21,8 +24,6 @@ fn main() {
 
     println!("The game is now setting up");
     
-    const WIDTH: usize = 7;
-    const HEIGHT: usize = 6;
     let mut board = [[Cell::Unset; WIDTH]; HEIGHT];
 
     let mut turn: u8 = 0;
@@ -107,9 +108,9 @@ fn main() {
 
         // CHECK
 
-        let mut Winner = Cell::Unset;
+        let mut winner = Cell::Unset;
 
-        Winner = Cell::Unset;
+        winner = Cell::Unset;
 
         for y in 0..(HEIGHT - 1) {
             for x in 0..(WIDTH - 1) {
@@ -123,19 +124,19 @@ fn main() {
                     &board[x + 1][y] == current_player &&
                     &board[x + 2][y] == current_player &&
                     &board[x + 3][y] == current_player {
-                    Winner = Cell::P1;
+                    winner = Cell::P1;
                 }
 
                 if y + 3 < HEIGHT && 
                     &board[x][y + 1] == current_player &&
                     &board[x][y + 2] == current_player &&
                     &board[x][y + 3] == current_player {
-                    Winner = Cell::P2;
+                    winner = Cell::P2;
                 }
             }
         }
 
-        match Winner {
+        match winner {
             Cell::Unset => {continue;},
             Cell::P1 => {println!("\nWinner: player 1")},
             Cell::P2 => {println!("\nWinner: player 2")},
