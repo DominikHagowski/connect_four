@@ -124,22 +124,22 @@ fn main() {
                     &board[x + 1][y] == current_player &&
                     &board[x + 2][y] == current_player &&
                     &board[x + 3][y] == current_player {
-                    winner = Cell::P1;
+                    winner = *current_player;
                 }
 
                 if y + 3 < HEIGHT && 
                     &board[x][y + 1] == current_player &&
                     &board[x][y + 2] == current_player &&
                     &board[x][y + 3] == current_player {
-                    winner = Cell::P2;
+                    winner = *current_player;
                 }
             }
         }
 
         match winner {
             Cell::Unset => {continue;},
-            Cell::P1 => {println!("\nWinner: player 1")},
-            Cell::P2 => {println!("\nWinner: player 2")},
+            Cell::P1 => {println!("\nWinner: player 2")},
+            Cell::P2 => {println!("\nWinner: player 1")},
         }
 
         break;
