@@ -110,8 +110,6 @@ fn main() {
 
         let mut winner = Cell::Unset;
 
-        winner = Cell::Unset;
-
         for y in 0..(HEIGHT - 1) {
             for x in 0..(WIDTH - 1) {
                 let current_player = &board[x][y];
